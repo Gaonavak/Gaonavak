@@ -11,9 +11,9 @@
 
 ![](./src/header_.png)
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&center=true&vCenter=true&width=600&lines=Hi👋,+I+am+Novak;欢迎来到我的主页！;)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com/?color=%2336BCF7&center=true&vCenter=true&width=600&lines=Hi👋,there.+I+am+Novak😊;+Welcome+everyone+to+learn+from+each+other📚;)](https://git.io/typing-svg)
 
-### 🧑‍🔧 SKILLS
+### 🧑‍🔧 Skills
 
 | Property             | Skills                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -24,11 +24,15 @@
 
 ### 📈 GitHub Activity Graph:
 
-|                                                                                                                                             |                                                                                                                               |
-| ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| ![BEPb's github stats](https://github-readme-stats.vercel.app/api?username=Gaonavak&show_icons=true&theme=radical&include_all_commits=true) | ![Quiec's github stats](https://github-readme-stats.vercel.app/api/top-langs/?username=Gaonavak&theme=radical&layout=compact) |
-
 ![Gaonavak's github activity graph](https://raw.githubusercontent.com/BEPb/BEPb/output/github-contribution-grid-snake.svg)
+
+<div align="center">
+  <p align="center" style="display: flex; justify-content: space-between;">
+    <img width="49%" src="https://github-readme-stats.vercel.app/api?username=Gaonavak&theme=transparent&hide_border=true&include_all_commits=true&count_private=true" alt="GitHub Stats" />
+    <img width="49%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Gaonavak&theme=transparent&hide_border=true&layout=compact&hide=jupyter%20notebook" alt="Top Languages" />
+  </p>
+
+</div>
 
 <div align="center">
 <summary>Trophy: Github Profile Trophy</summary>
