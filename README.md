@@ -11,7 +11,7 @@
 
 ![](./src/header_.png)
 
-[![Typing SVG](https://readme-typing-svg.demolab.com/?color=%2336BCF7&center=true&vCenter=true&width=800&lines=Hi👋,there.+I+am+Novak😊;+Welcome+everyone+to+learn+from+each+other📚;)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com/?color=%2336BCF7&center=true&vCenter=true&width=800&lines=Hi👋,there.+I+am+Gao😊;+Welcome+everyone+to+learn+from+each+other📚;)](https://git.io/typing-svg)
 
 ### 🧑‍🔧 Skills
 
