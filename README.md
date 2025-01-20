@@ -4,8 +4,6 @@
     <a href="https://github.com/Gaonavak/Gaonavak"><img src="https://img.shields.io/badge/status-updating-brightgreen.svg"></a>
     <a href="https://blog.csdn.net/NovakG_?spm=1008.2028.3001.5343"><img src="https://img.shields.io/badge/CSDN-Blog-red.svg" alt="CSDN Blog"></a>
     <a href="https://github.com/Gaonavak/Gaonavak/graphs/contributors"><img src="https://img.shields.io/github/contributors/Gaonavak/Gaonavak?color=blue"></a>
-    <a href="https://github.com/Gaonavak/Gaonavak/stargazers"><img src="https://img.shields.io/github/stars/Gaonavak/Gaonavak.svg?logo=github"></a>
-    <a href="https://github.com/Gaonavak/Gaonavak/network/members"><img src="https://img.shields.io/github/forks/Gaonavak/Gaonavak.svg?color=blue&logo=github"></a>
     <img src="https://visitor-badge.laobi.icu/badge?page_id=Gaonavak.Gaonavak" alt="visitors"/>
 </p>
 
