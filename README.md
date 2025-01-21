@@ -22,7 +22,7 @@
 
 ### 📈 GitHub Activity Graph:
 
-![Gaonavak's github activity graph](https://raw.githubusercontent.com/BEPb/BEPb/output/github-contribution-grid-snake.svg)
+![Gaonavak's github activity graph](https://raw.githubusercontent.com/Gaonavak/Gaonavak/refs/heads/output/my-custom-snake-animation.svg)
 
 <div align="center">
   <p align="center" style="display: flex; justify-content: space-between;">
