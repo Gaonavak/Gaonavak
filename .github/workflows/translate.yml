@@ -24,6 +24,7 @@ jobs:
           CHANGED_FILES=$(git diff --name-only HEAD^ HEAD -- "*.md" || true)
           if [ -n "$CHANGED_FILES" ]; then
             echo "MD_CHANGED=true" >> $GITHUB_ENV
+            echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
           else
             echo "MD_CHANGED=false" >> $GITHUB_ENV
           fi
@@ -34,29 +35,26 @@ jobs:
         with:
           node-version: 16
 
-      - name: Translate README to English
+      - name: Translate changed Markdown files
         if: env.MD_CHANGED == 'true'
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: en
+        run: |
+          for file in $CHANGED_FILES; do
+            if [[ $file == *.md ]]; then
+              echo "Translating $file to English..."
+              # 调用翻译操作，例如使用 dephraiim/translate-readme
+              # 此处假设你已设置好翻译操作（如调用 API 或使用翻译脚本）
+              # 示例命令 (请根据实际需求修改翻译命令):
+              dephraiim/translate-readme $file --lang en
+            fi
+          done
 
       - name: Commit and push changes
         if: env.MD_CHANGED == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add README.en.md
-
-          # 检查是否有需要提交的更改，避免空提交导致的错误
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-
-          git commit -m ":memo: Automated translation of .md to English"
-
-          # 解决远程分支有更新导致 push 失败的问题
-          git pull --rebase origin ${{ github.ref }}
+          git add $CHANGED_FILES
+          git commit -m ":memo: Automated translation of changed .md files to English"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
