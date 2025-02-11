@@ -37,16 +37,11 @@ jobs:
 
       - name: Translate changed Markdown files
         if: env.MD_CHANGED == 'true'
-        run: |
-          for file in $CHANGED_FILES; do
-            if [[ $file == *.md ]]; then
-              echo "Translating $file to English..."
-              # 调用翻译操作，例如使用 dephraiim/translate-readme
-              # 此处假设你已设置好翻译操作（如调用 API 或使用翻译脚本）
-              # 示例命令 (请根据实际需求修改翻译命令):
-              dephraiim/translate-readme $file --lang en
-            fi
-          done
+        uses: dephraiim/translate-readme@main
+        with:
+          LANG: en
+        env:
+          CHANGED_FILES: ${{ env.CHANGED_FILES }}  # 将文件传递给该 Action
 
       - name: Commit and push changes
         if: env.MD_CHANGED == 'true'
