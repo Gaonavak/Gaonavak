@@ -34,27 +34,19 @@ jobs:
         with:
           node-version: 16
 
-      - name: Translate README to Simplified Chinese
+      - name: Translate README to English
         if: env.MD_CHANGED == 'true'
         uses: dephraiim/translate-readme@main
         with:
-          LANG: zh-CN
-
-      - name: Rename translated file
-        if: env.MD_CHANGED == 'true'
-        run: mv README.zh-CN.md README.ch.md
-
-      - name: Rename original README to English version
-        if: env.MD_CHANGED == 'true'
-        run: mv README.md README.en.md
+          LANG: en
 
       - name: Commit and push changes
         if: env.MD_CHANGED == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add README.en.md README.ch.md
-          git commit -m ":memo: Automated translation of README"
+          git add README.en.md
+          git commit -m ":memo: Automated translation of .md to English"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
