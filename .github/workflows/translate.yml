@@ -46,7 +46,17 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add README.en.md
+
+          # 检查是否有需要提交的更改，避免空提交导致的错误
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
           git commit -m ":memo: Automated translation of .md to English"
+
+          # 解决远程分支有更新导致 push 失败的问题
+          git pull --rebase origin ${{ github.ref }}
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
