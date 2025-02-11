@@ -1,4 +1,4 @@
-name: Translate Changed Markdown Files  # 任务名称
+name: Translate Markdown Files
 
 on:
   push:
@@ -11,56 +11,50 @@ on:
       - master
 
 jobs:
-  build:
+  translate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2  # 检出代码仓库
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # 确保 Git 记录完整的提交历史
+
+      - name: Check if .md files were changed
+        id: check-md
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD -- "*.md" || true)
+          if [ -n "$CHANGED_FILES" ]; then
+            echo "MD_CHANGED=true" >> $GITHUB_ENV
+          else
+            echo "MD_CHANGED=false" >> $GITHUB_ENV
+          fi
 
       - name: Setup Node.js
+        if: env.MD_CHANGED == 'true'
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x  # 设置 Node.js 版本
+          node-version: 16
 
-      - name: Get changed markdown files
-        id: changed-files
-        run: |
-          # 获取本次提交/合并中被修改的 .md 文件
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- "*.md")
-          echo "$CHANGED_FILES" > changed_files.txt
-          echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
-          echo "$CHANGED_FILES" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+      - name: Translate README to Simplified Chinese
+        if: env.MD_CHANGED == 'true'
+        uses: dephraiim/translate-readme@main
+        with:
+          LANG: zh-CN
 
-      - name: Translate changed Markdown files
-        if: env.CHANGED_FILES != ''
-        run: |
-          while read file; do
-            npx dephraiim/translate-action@main --file="$file" --lang=zh-CN
-          done < changed_files.txt
+      - name: Rename translated file
+        if: env.MD_CHANGED == 'true'
+        run: mv README.zh-CN.md README.ch.md
 
-      - name: Rename translated files
-        if: env.CHANGED_FILES != ''
-        run: |
-          while read file; do
-            if [[ -f "${file/.md/.zh-CN.md}" ]]; then
-              mv "${file/.md/.zh-CN.md}" "${file/.md/.ch.md}"
-            fi
-          done < changed_files.txt
-
-      - name: Rename original Markdown files to English version
-        if: env.CHANGED_FILES != ''
-        run: |
-          while read file; do
-            mv "$file" "${file/.md/.en.md}"
-          done < changed_files.txt
+      - name: Rename original README to English version
+        if: env.MD_CHANGED == 'true'
+        run: mv README.md README.en.md
 
       - name: Commit and push changes
-        if: env.CHANGED_FILES != ''
+        if: env.MD_CHANGED == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add *.ch.md *.en.md
-          git commit -m ":memo: Automated translation for updated Markdown files"
+          git add README.en.md README.ch.md
+          git commit -m ":memo: Automated translation of README"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
