@@ -1,7 +1,11 @@
-name: Translate README
+name: Translate Changed Markdown Files  # 任务名称
 
 on:
   push:
+    branches:
+      - main
+      - master
+  pull_request:
     branches:
       - main
       - master
@@ -10,29 +14,53 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2  # 检出代码仓库
+
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 12.x  # 设置 Node.js 版本
 
-      - name: Translate README to Simplified Chinese
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: zh-CN
+      - name: Get changed markdown files
+        id: changed-files
+        run: |
+          # 获取本次提交/合并中被修改的 .md 文件
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- "*.md")
+          echo "$CHANGED_FILES" > changed_files.txt
+          echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
+          echo "$CHANGED_FILES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
-      - name: Rename translated file
-        run: mv README.zh-CN.md README.ch.md
+      - name: Translate changed Markdown files
+        if: env.CHANGED_FILES != ''
+        run: |
+          while read file; do
+            npx dephraiim/translate-action@main --file="$file" --lang=zh-CN
+          done < changed_files.txt
 
-      - name: Rename original README to English version
-        run: mv README.md README.en.md
+      - name: Rename translated files
+        if: env.CHANGED_FILES != ''
+        run: |
+          while read file; do
+            if [[ -f "${file/.md/.zh-CN.md}" ]]; then
+              mv "${file/.md/.zh-CN.md}" "${file/.md/.ch.md}"
+            fi
+          done < changed_files.txt
+
+      - name: Rename original Markdown files to English version
+        if: env.CHANGED_FILES != ''
+        run: |
+          while read file; do
+            mv "$file" "${file/.md/.en.md}"
+          done < changed_files.txt
 
       - name: Commit and push changes
+        if: env.CHANGED_FILES != ''
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add README.en.md README.ch.md
-          git commit -m ":memo: Automated translation of README"
+          git add *.ch.md *.en.md
+          git commit -m ":memo: Automated translation for updated Markdown files"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
