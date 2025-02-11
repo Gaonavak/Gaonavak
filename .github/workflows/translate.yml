@@ -1,0 +1,38 @@
+name: Translate README
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Translate README to Simplified Chinese
+        uses: dephraiim/translate-readme@main
+        with:
+          LANG: zh-CN
+
+      - name: Rename translated file
+        run: mv README.zh-CN.md README.ch.md
+
+      - name: Rename original README to English version
+        run: mv README.md README.en.md
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.en.md README.ch.md
+          git commit -m ":memo: Automated translation of README"
+          git push origin HEAD:${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
